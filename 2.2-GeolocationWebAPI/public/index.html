@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+
+    <style>
+        #issMap {
+            height: 180px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Data selfie app</h1>
+
+    <p>Latitude: <span id="latitude"></span> &deg;<br>
+        Longitude: <span id="longitude"></span> &deg;</p>
+
+    <button type="button" onclick="onGeolocate()">Geolocate</button>
+
+    <div id="issMap"></div>
+
+    <div><a href="/">Hello!</a> | <a href="goodbye.html">Goodbye!</a></div>
+
+    <a href="wheresiss.html">Where's ISS?</a>
+
+    <p>Hello!</p>
+
+    <script>
+        const mymap = L.map('issMap').setView([0, 0], 1);
+
+        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+        const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tiles = L.tileLayer(tileUrl, {
+            attribution
+        });
+        tiles.addTo(mymap);
+
+        const marker = L.marker([0, 0]).addTo(mymap);
+
+        function onGeolocate() {
+            if ('geolocation' in navigator) {
+                console.log('geolocation available');
+                navigator.geolocation.getCurrentPosition(position => {
+                    console.log(position.coords);
+                    const lat = position.coords.latitude;
+                    document.getElementById('latitude').textContent = lat.toString();
+                    const long = position.coords.longitude;
+                    document.getElementById('longitude').textContent = long.toString();
+
+                    marker.setLatLng([
+                        lat,
+                        long
+                    ]);
+
+                    mymap.setView([lat, long], 15);
+                });
+            } else {
+                console.log('geolocation not available');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

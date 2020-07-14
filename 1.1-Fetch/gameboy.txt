@@ -1,0 +1,5 @@
+<h1>Game Boy Pocket </h1>
+
+The Game Boy Pocket is a redesigned version of the original Game Boy having the same features. It was released in 1996. Notably, this variation is smaller and lighter. It comes in seven different colors; red, yellow, green, black, clear, silver, blue, and pink.
+
+Another notable improvement over the original Game Boy is a black-and-white display screen, rather than the green-tinted display of the original Game Boy, that also featured improved response time for less blurring during motion. The Game Boy Pocket takes two AAA batteries as opposed to four AA batteries for roughly ten hours of gameplay. The first model of the Game Boy Pocket did not have an LED to show battery levels, but the feature was added due to public demand.
