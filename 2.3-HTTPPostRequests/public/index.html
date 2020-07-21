@@ -28,6 +28,7 @@
         Longitude: <span id="longitude"></span> &deg;</p>
 
     <button type="button" onclick="onGeolocate()">Geolocate</button>
+    <button type="button" onclick="onRequestHistory()">Request history</button>
 
     <div id="issMap"></div>
 
@@ -49,6 +50,12 @@
         tiles.addTo(mymap);
 
         const marker = L.marker([0, 0]).addTo(mymap);
+
+        async function onRequestHistory() {
+            const response = await fetch('/api/history');
+            const content = await response.text();
+            console.log(content);
+        }
 
         function onGeolocate() {
             if ('geolocation' in navigator) {

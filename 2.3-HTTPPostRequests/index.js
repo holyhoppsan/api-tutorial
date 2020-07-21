@@ -11,6 +11,16 @@ app.use(express.json({
     limit: '1mb'
 }));
 
+app.get('/api/history', (request, response) => {
+    console.log('I got requested to return the history');
+
+    fs.readFile('history.txt', (err, data) => {
+        if (err) throw err;
+        console.log('read history file');
+        response.send(data);
+    });
+});
+
 app.post('/api', (request, response) => {
     console.log('I got a request');
     console.log(request.body);
@@ -33,7 +43,6 @@ app.post('/api', (request, response) => {
         if (err) throw err;
         console.log('Wrote to file');
     });
-
 
     response.json({
         status: 'success',
