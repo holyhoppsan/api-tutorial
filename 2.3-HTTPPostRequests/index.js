@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const app = express();
 
 const historyArray = [];
@@ -22,6 +23,17 @@ app.post('/api', (request, response) => {
     });
 
     console.log("history: \n" + JSON.stringify(historyArray, null, 2));
+
+    const newHistoryEntry = JSON.stringify({
+        latitiude: data.lat,
+        longitude: data.long
+    });
+
+    fs.appendFile('history.txt', newHistoryEntry + '\n', (err) => {
+        if (err) throw err;
+        console.log('Wrote to file');
+    });
+
 
     response.json({
         status: 'success',
