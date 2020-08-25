@@ -27,6 +27,8 @@
     <p>Latitude: <span id="latitude"></span> &deg;<br>
         Longitude: <span id="longitude"></span> &deg;</p>
 
+    <p>Enter your favorite vegetable: <input type="text" id="vegetable" /> </p>
+
     <button type="button" onclick="onGeolocate()">Geolocate</button>
 
     <div id="issMap"></div>
@@ -60,6 +62,8 @@
                     const long = position.coords.longitude;
                     document.getElementById('longitude').textContent = long.toString();
 
+                    const vegetable = document.getElementById('vegetable').value;
+
                     marker.setLatLng([
                         lat,
                         long
@@ -69,7 +73,8 @@
 
                     const data = {
                         lat,
-                        long
+                        long,
+                        vegetable
                     };
 
                     const options = {
