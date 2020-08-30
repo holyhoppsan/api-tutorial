@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"
         integrity="sha512-hAm8hj9/2EIonvS+sf0G3anaY8zYHv6q7ktNlLTg8wLwFvhUavnDdH0gif8SA3U1kN0lyKBWbf1wD4+5BfaMMA=="
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <style>
         #issMap {
             height: 180px;
@@ -31,7 +32,7 @@
 <body>
     <h1>Data selfie app</h1>
 
-    <div><a href="/">enter</a>|<a href="all.html">list</a></div>
+    <div><a href="/">enter</a>|<a href="/logs">list</a></div>
 
     <p>Latitude: <span id="latitude"></span> &deg;<br>
         Longitude: <span id="longitude"></span> &deg;</p>
@@ -40,6 +41,7 @@
 
     <div><button type="button" id="submit">Submit</button></div>
 
+    <script src="sketch.js"></script>
     <br>
 
     <div><a href="/">Hello!</a> | <a href="goodbye.html">Goodbye!</a></div>
@@ -47,71 +49,6 @@
     <div><a href="wheresiss.html">Where's ISS?</a></div>
 
     <br>
-
-    <script>
-        function setup() {
-            noCanvas();
-            const video = createCapture(VIDEO);
-            video.size(320, 240);
-
-            const mymap = L.map('issMap').setView([0, 0], 1);
-
-            const attribution =
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-            const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-            const tiles = L.tileLayer(tileUrl, {
-                attribution
-            });
-            tiles.addTo(mymap);
-
-            const marker = L.marker([0, 0]).addTo(mymap);
-
-            const button = document.getElementById("submit");
-            button.addEventListener('click', async event => {
-                if ('geolocation' in navigator) {
-                    console.log('geolocation available');
-                    navigator.geolocation.getCurrentPosition(async position => {
-                        const lat = position.coords.latitude;
-                        document.getElementById('latitude').textContent = lat.toString();
-                        const long = position.coords.longitude;
-                        document.getElementById('longitude').textContent = long.toString();
-
-                        // Set marker
-                        marker.setLatLng([
-                            lat,
-                            long
-                        ]);
-
-                        mymap.setView([lat, long], 15);
-
-                        // Capture image from webcam#
-                        video.loadPixels();
-                        const image64 = video.canvas.toDataURL();
-
-                        // Send data to database
-                        const data = {
-                            lat,
-                            long,
-                            image64
-                        };
-
-                        const options = {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(data)
-                        };
-                        const response = await fetch('/api', options);
-                        const json = await response.json();
-                    });
-                } else {
-                    console.log('geolocation not available');
-                }
-            });
-        }
-    </script>
 
 </body>
 
