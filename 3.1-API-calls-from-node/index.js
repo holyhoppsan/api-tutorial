@@ -46,7 +46,8 @@ app.post('/api', (request, response) => {
 
 app.get('/weather/:lat,:long', async (request, response) => {
     console.log('I got a weather request');
-    const api_url = `http://api.openweathermap.org/data/2.5/weather?lat=${request.params.lat}&lon=${request.params.long}&units=metric&appid=${API_KEY}`;
+    const api_key = process.env.WEATHER_API_KEY;
+    const api_url = `http://api.openweathermap.org/data/2.5/weather?lat=${request.params.lat}&lon=${request.params.long}&units=metric&appid=${api_key}`;
     const fetch_response = await fetch(api_url);
     const json = await fetch_response.json();
     response.json(json);
